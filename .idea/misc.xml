@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/microservicio-usuarios/pom.xml" />
+        <option value="$PROJECT_DIR$/microservicio-monopatines/pom.xml" />
+        <option value="$PROJECT_DIR$/microservicio-administracion/pom.xml" />
+        <option value="$PROJECT_DIR$/microservicio-paradas/pom.xml" />
+        <option value="$PROJECT_DIR$/microservicio-mantenimiento/pom.xml" />
+        <option value="$PROJECT_DIR$/api-gateway/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>
