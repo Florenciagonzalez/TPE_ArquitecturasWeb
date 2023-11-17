@@ -41,6 +41,7 @@ public class HttpConfig {
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers( "/monopatines/admin" ).hasAuthority( AuthorityConstant.ADMIN)
                         .requestMatchers( "/monopatines/usuario" ).hasAuthority( AuthorityConstant.USER)
+                        .requestMatchers("/v1/authenticate", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated());
 
         http

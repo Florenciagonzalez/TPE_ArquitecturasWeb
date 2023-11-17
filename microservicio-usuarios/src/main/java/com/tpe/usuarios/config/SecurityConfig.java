@@ -36,6 +36,7 @@ public class SecurityConfig {
                 // MANEJAMOS LOS PERMISOS A LOS ENDPOINTS.
                 .authorizeHttpRequests(auth -> auth.requestMatchers("usuarios/autenticar").permitAll()
                         .requestMatchers("/usuarios/registrarse").permitAll()
+                        .requestMatchers("/v1/authenticate", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated())
                 .anonymous(AbstractHttpConfigurer::disable)
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

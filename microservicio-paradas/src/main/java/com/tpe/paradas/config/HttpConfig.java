@@ -40,6 +40,7 @@ public class HttpConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers( "/paradas" ).hasAuthority( AuthorityConstant.ADMIN)
+                        .requestMatchers("/v1/authenticate", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                                 .anyRequest().authenticated());
 
         http
