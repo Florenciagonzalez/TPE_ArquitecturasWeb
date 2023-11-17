@@ -1,5 +1,6 @@
 package com.tpe.usuarios.config;
 
+import com.tpe.usuarios.AuthorityConstant;
 import com.tpe.usuarios.security.JwtConfigurer;
 import com.tpe.usuarios.security.TokenProvider;
 import lombok.RequiredArgsConstructor;

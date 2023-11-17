@@ -1,10 +1,12 @@
 package com.tpe.administracion.controllers;
 
+import com.tpe.administracion.AuthorityConstant;
 import com.tpe.administracion.models.entidades.Tarifa;
 import com.tpe.administracion.services.TarifaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,6 +16,7 @@ public class TarifaController {
     private TarifaService service;
 
     @PostMapping("")
+    @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.ADMIN + "\" )")
     public ResponseEntity<?> save(@RequestBody Tarifa t) {
         try{
             return ResponseEntity.status(HttpStatus.OK).body(service.save(t));
@@ -23,6 +26,7 @@ public class TarifaController {
     }
 
     @PutMapping("/tarifaExtra/{id}")
+    @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.ADMIN + "\" )")
     public ResponseEntity<?> definirTarifaExtra(@PathVariable Long id, @RequestBody Double tarifa_extra) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.definirTarifaExtra(id, tarifa_extra));
@@ -32,6 +36,7 @@ public class TarifaController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.ADMIN + "\" )")
     public ResponseEntity<?> getById(@PathVariable Long id) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.getById(id));

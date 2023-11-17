@@ -1,4 +1,4 @@
-package com.tpe.administracion.models.dto;
+package com.tpe.administracion.models.clases;
 
 import lombok.Data;
 

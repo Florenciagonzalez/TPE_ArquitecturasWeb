@@ -5,6 +5,8 @@ import com.tpe.monopatines.modelos.dto.MonopatinDTO;
 import com.tpe.monopatines.modelos.dto.ReportePorTiempo;
 import com.tpe.monopatines.modelos.Monopatin;
 import com.tpe.monopatines.repository.MonopatinRepository;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -133,7 +135,5 @@ public class MonopatinService {
             throw e;
         }
     }
-
-
 
 }

@@ -1,7 +1,7 @@
-package com.tpe.paradas.config;
+package com.tpe.administracion.config;
 
-import com.tpe.paradas.AuthorityConstant;
-import com.tpe.paradas.security.JwtFilter;
+import com.tpe.administracion.AuthorityConstant;
+import com.tpe.administracion.security.JwtFilter;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -34,21 +34,17 @@ public class HttpConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http ) throws Exception {
-        http
-                .addFilterBefore( new JwtFilter( jwtParser ), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore( new JwtFilter( jwtParser ), UsernamePasswordAuthenticationFilter.class);
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
+                        auth.requestMatchers( "/administradores/**" ).hasAuthority(AuthorityConstant.ADMIN)
+                            .requestMatchers( "/tarifas/**" ).hasAuthority( AuthorityConstant.ADMIN)
+                            .anyRequest().authenticated());
 
-                        auth.requestMatchers( "/paradas" ).hasAuthority( AuthorityConstant.ADMIN)
-                        .requestMatchers("/v1/authenticate", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                        .anyRequest().authenticated());
-
-        http
-                .anonymous( AbstractHttpConfigurer::disable )
+        http.anonymous( AbstractHttpConfigurer::disable )
                 .sessionManagement( s -> s.sessionCreationPolicy( SessionCreationPolicy.STATELESS ) );
-        http
-                .httpBasic( Customizer.withDefaults() );
+        http.httpBasic( Customizer.withDefaults() );
         return http.build();
     }
 }

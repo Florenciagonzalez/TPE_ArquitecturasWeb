@@ -24,7 +24,11 @@ public class RouteConfig {
                 .filters(f -> f.filter(authFilter.apply(new AuthenticationFilter.Config())))
                 .uri("http://localhost:8001"))
 
-                .route("monopatines", r -> r.path("/monopatines/**")
+                .route("monopatines", r -> r.path("/monopatines/usuario/**")
+                .filters(f -> f.filter(authFilter.apply(new AuthenticationFilter.Config())))
+                .uri("http://localhost:8004"))
+
+                .route("monopatines-admin", r -> r.path("/monopatines/admin/**")
                 .filters(f -> f.filter(authFilter.apply(new AuthenticationFilter.Config())))
                 .uri("http://localhost:8004"))
 
@@ -35,6 +39,14 @@ public class RouteConfig {
                 .route("paradas", r -> r.path("/paradas/**")
                         .filters(f -> f.filter(authFilter.apply(new AuthenticationFilter.Config())))
                         .uri("http://localhost:8005"))
+
+                .route("administracion", r -> r.path("/administradores/**")
+                        .filters(f -> f.filter(authFilter.apply(new AuthenticationFilter.Config())))
+                        .uri("http://localhost:8002"))
+
+                .route("tarifas", r -> r.path("/tarifas/**")
+                        .filters(f -> f.filter(authFilter.apply(new AuthenticationFilter.Config())))
+                        .uri("http://localhost:8002"))
                 .build();
     }
 }
