@@ -52,7 +52,7 @@ public class AdministradorService {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(headers);
         ResponseEntity<String> response = restTemplate.exchange(
-                "http://localhost:8004/monopatines/admin/cantEnMantVsOp",
+                "http://localhost:8004/monopatines/cantEnMantVsOp",
                     HttpMethod.GET,
                     requestEntity,
                     String.class);
@@ -97,22 +97,6 @@ public class AdministradorService {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR. No se encontraron monopatines con las caracteristicas ingresadas,");
 
     }
-
-
-    public ResponseEntity deleteMantenimiento(String token, Long id) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", token);
-
-        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
-        ResponseEntity<String> response = restTemplate.exchange(
-                "http://localhost:8003/mantenimiento/" + id,
-                HttpMethod.DELETE,
-                requestEntity,
-                String.class);
-
-        return response;
-    }
-
 
     //ABM paradas
     public ResponseEntity saveParada(String token, Parada p) {

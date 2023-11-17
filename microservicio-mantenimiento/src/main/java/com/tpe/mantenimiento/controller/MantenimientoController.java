@@ -59,16 +59,6 @@ public class MantenimientoController {
         }
     }
 
-    @GetMapping("/activoPorIdMonopatin/{id_monopatin}")
-    @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.MAINTENANCE + "\" )")
-    public ResponseEntity<?> getById_monopatin(@PathVariable Long id_monopatin) {
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(mantenimientoService.getMantActivoByMonopatinId(id_monopatin));
-        }catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error. Por favor intente más tarde.");
-        }
-    }
-
     @PutMapping("/monopatines/enviarAMantenimiento/{id}")
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.MAINTENANCE + "\" )")
     public ResponseEntity<?> enviarMonopatinMantenimiento(@RequestHeader("Authorization") String token, @PathVariable Long id)  {

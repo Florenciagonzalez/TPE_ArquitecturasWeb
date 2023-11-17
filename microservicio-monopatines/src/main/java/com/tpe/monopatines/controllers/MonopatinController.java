@@ -24,7 +24,7 @@ public class MonopatinController {
     //metodos accesibles para el admin
     
     @Operation(summary = "Guarda un monopatin.", description = "Guarda un monopatin")
-    @PostMapping("/admin")
+    @PostMapping("")
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.ADMIN + "\" )")
     public ResponseEntity<?> save(@RequestBody Monopatin m) {
         try{
@@ -34,7 +34,7 @@ public class MonopatinController {
         }
     }
 
-    @PutMapping("/admin/{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.ADMIN + "\" ) or hasAnyAuthority(\"" + AuthorityConstant.MAINTENANCE + "\" )")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Monopatin m) {
         try{
@@ -44,7 +44,7 @@ public class MonopatinController {
         }
     }
 
-    @DeleteMapping("/admin/{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.ADMIN + "\" )")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         try{
@@ -54,8 +54,8 @@ public class MonopatinController {
         }
     }
 
-    @GetMapping("/admin/{id}")
-    @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.ADMIN + "\" )")
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.ADMIN + "\" ) or hasAnyAuthority(\"" + AuthorityConstant.MAINTENANCE + "\" )")
     public ResponseEntity<?> getById(@PathVariable Long id) {
         try{
             return ResponseEntity.status(HttpStatus.OK).body(service.getById(id));
@@ -64,7 +64,7 @@ public class MonopatinController {
         }
     }
 
-    @GetMapping("/admin/cantEnMantVsOp")
+    @GetMapping("/cantEnMantVsOp")
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.ADMIN + "\" )")
     public ResponseEntity<?> getReporteCantMantVsOp(){
         try {
@@ -74,7 +74,7 @@ public class MonopatinController {
         }
     }
 
-    @GetMapping("/admin/anio/{anio}/cantViajesMayorA/{cant_viajes}")
+    @GetMapping("/anio/{anio}/cantViajesMayorA/{cant_viajes}")
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.ADMIN + "\" )")
     public ResponseEntity<?> getConMasCantViajeEnAnio(@PathVariable int anio, @PathVariable Long cant_viajes){
         try {
@@ -84,7 +84,7 @@ public class MonopatinController {
         }
     }
 
-    @GetMapping("/admin/conKmsEntre/min/{minKms}/max/{maxKms}")
+    @GetMapping("/conKmsEntre/min/{minKms}/max/{maxKms}")
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.ADMIN + "\" )")
     public ResponseEntity<?> getConKmsEntre(@PathVariable double minKms, @PathVariable double maxKms){
         try {
@@ -96,7 +96,7 @@ public class MonopatinController {
 
     //metodos accesibles para mantenimiento
 
-    @GetMapping("/admin/reportesConTiempoPausa")
+    @GetMapping("/reportesConTiempoPausa")
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.MAINTENANCE + "\" )")
     public ResponseEntity<?> getReportesConTiempoPausa(){
         try {
@@ -106,7 +106,7 @@ public class MonopatinController {
         }
     }
 
-    @GetMapping("/admin/reportesSinTiempoPausa")
+    @GetMapping("/reportesSinTiempoPausa")
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.MAINTENANCE + "\" )")
     public ResponseEntity<?> getReportesSinTiempoPausa(){
         try {
@@ -119,7 +119,7 @@ public class MonopatinController {
 
     //metodos accesibles para usuarios
 
-    @GetMapping("/usuario/disponiblesEnZona/latitud/{latitud}/longitud/{longitud}")
+    @GetMapping("/disponiblesEnZona/latitud/{latitud}/longitud/{longitud}")
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.USER + "\" )")
     public ResponseEntity<?> getMonopatinesDisponiblesEnZona(@PathVariable double latitud, @PathVariable double longitud) {
         try {
