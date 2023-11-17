@@ -1,29 +1,26 @@
 package com.tpe.administracion.services;
 
 import com.tpe.administracion.models.dto.MonopatinCantViajesDTO;
-import com.tpe.administracion.models.clases.Mantenimiento;
 import com.tpe.administracion.models.clases.Monopatin;
 import com.tpe.administracion.models.clases.Parada;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.time.LocalDateTime;
 import java.util.List;
+
 
 @Service
 public class AdministradorService {
     @Autowired
     private RestTemplate restTemplate;
 
-    
-    //ABM monopatines
-    public ResponseEntity saveMonopatin(Monopatin m) {
-        HttpHeaders headers = new HttpHeaders();
 
+    //ABM monopatines
+    public ResponseEntity saveMonopatin(String token, Monopatin m) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", token);
         Monopatin nuevo = new Monopatin(m);
         HttpEntity<Monopatin> requestEntity = new HttpEntity<>(nuevo, headers);
         ResponseEntity<String> response = restTemplate.exchange(
@@ -34,9 +31,9 @@ public class AdministradorService {
 
         return response;
     }
-    public ResponseEntity deleteMonopatin(Long id)  {
+    public ResponseEntity deleteMonopatin(String token, Long id)  {
         HttpHeaders headers = new HttpHeaders();
-
+        headers.set("Authorization", token);
         HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
         ResponseEntity<String> response = restTemplate.exchange(
                 "http://localhost:8004/monopatines/" + id,
@@ -47,115 +44,15 @@ public class AdministradorService {
         return response;
     }
 
-    public ResponseEntity enviarMonopatinMantenimiento(Long id) {
-        HttpHeaders headers = new HttpHeaders();
-
-        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
-        ResponseEntity<Monopatin> response = restTemplate.exchange(
-                "http://localhost:8004/monopatines/" + id,
-                HttpMethod.GET,
-                requestEntity,
-                new ParameterizedTypeReference<Monopatin>() {});
-
-        if(response.getStatusCode().is2xxSuccessful()){
-            Monopatin m = response.getBody();
-            if(m.getEstado().equals("disponible")){
-               this.nuevoMantenimiento(id);
-                m.setEstado("en mantenimiento");
-                HttpEntity<Monopatin> requestEntity2 = new HttpEntity<>(m, headers);
-                ResponseEntity<Monopatin> response2 = restTemplate.exchange(
-                        "http://localhost:8004/monopatines/" + id,
-                            HttpMethod.PUT,
-                            requestEntity2,
-                            new ParameterizedTypeReference<Monopatin>() {});
-
-                return response2;
-            }
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El monopatin que intenta añadir a mantenimiento no fue encontrado");
-    }
-
-    private ResponseEntity nuevoMantenimiento(Long id) {
-        HttpHeaders headers = new HttpHeaders();
-
-        Mantenimiento nuevo = new Mantenimiento();
-        nuevo.setId_monopatin(id);
-        nuevo.setFecha_inicio(LocalDateTime.now());
-        nuevo.setFecha_fin(null);
-        nuevo.setEsta_reparado(false);
-        HttpEntity<Mantenimiento> requestEntity = new HttpEntity<>(nuevo, headers);
-        ResponseEntity<String> response = restTemplate.exchange(
-                "http://localhost:8003/mantenimiento",
-                HttpMethod.POST,
-                requestEntity,
-                String.class);
-
-        return response;
-    }
-
-    public ResponseEntity sacarMonopatinDeMantenimiento(Long id) {
-        HttpHeaders headers = new HttpHeaders();
-
-        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
-        ResponseEntity<Monopatin> response = restTemplate.exchange(
-                "http://localhost:8004/monopatines/" + id,
-                HttpMethod.GET,
-                requestEntity,
-                new ParameterizedTypeReference<Monopatin>() {});
-
-        if (response.getStatusCode().is2xxSuccessful()){
-            Monopatin monopatin = response.getBody();
-            if(monopatin.getEstado().equals("en mantenimiento")) {
-                this.terminarMantenimiento(id);
-                monopatin.setEstado("disponible");
-                HttpEntity<Monopatin> requestEntity2 = new HttpEntity<>(monopatin, headers);
-                ResponseEntity<Monopatin> response2 = restTemplate.exchange(
-                        "http://localhost:8004/monopatines/" + id,
-                        HttpMethod.PUT,
-                        requestEntity2,
-                        new ParameterizedTypeReference<Monopatin>() {});
-
-                return response2;
-            }
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El monopatin que intenta sacar de mantenimiento no fue encontrado");
-    }
-
-    private ResponseEntity terminarMantenimiento(Long id) {
-        HttpHeaders headers = new HttpHeaders();
-
-        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
-        ResponseEntity<Mantenimiento> response = restTemplate.exchange(
-                "http://localhost:8003/mantenimiento/activoPorIdMonopatin/" + id,
-                HttpMethod.GET,
-                requestEntity,
-                new ParameterizedTypeReference<Mantenimiento>() {});
-
-        if (response.getStatusCode().is2xxSuccessful() && response.getBody() !=null){
-            Mantenimiento actual = response.getBody();
-            actual.setEsta_reparado(true);
-            actual.setFecha_fin(LocalDateTime.now());
-
-            HttpEntity<Mantenimiento> requestEntity2 = new HttpEntity<>(actual,headers);
-            ResponseEntity<Mantenimiento> response2 = restTemplate.exchange(
-                    "http://localhost:8003/mantenimiento/" + actual.getId(),
-                    HttpMethod.PUT,
-                    requestEntity2,
-                    new ParameterizedTypeReference<Mantenimiento>() {});
-
-            return response2;
-        }else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El mantenimiento que desea terminar no fue encontrado");
-        }
-    }
-
     //Reportes monopatines
 
-    public ResponseEntity getReporteMonopatinesOpVsMant(){
+    public ResponseEntity getReporteMonopatinesOpVsMant(String token){
         HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", token);
+
         HttpEntity<String> requestEntity = new HttpEntity<>(headers);
         ResponseEntity<String> response = restTemplate.exchange(
-                "http://localhost:8004/monopatines/cantEnMantVsOp",
+                "http://localhost:8004/monopatines/admin/cantEnMantVsOp",
                     HttpMethod.GET,
                     requestEntity,
                     String.class);
@@ -166,38 +63,10 @@ public class AdministradorService {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR. No se encontraron monopatines con las caracteristicas ingresadas,");
     }
 
-    public ResponseEntity getReportesMonopatinesConTiempoPausa(){
+    public ResponseEntity getMonopatinesConMasCantViajeEnAnio(String token, int anio, Long cant_viajes){
         HttpHeaders headers = new HttpHeaders();
-        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
-        ResponseEntity<String> response = restTemplate.exchange(
-                "http://localhost:8004/monopatines/reportesConTiempoPausa",
-                HttpMethod.GET,
-                requestEntity,
-                String.class);
+        headers.set("Authorization", token);
 
-        if(response != null) {
-            return response;
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR. No se encontraron monopatines con tiempo de pausa");
-    }
-
-    public ResponseEntity getReportesMonopatinesSinTiempoPausa(){
-        HttpHeaders headers = new HttpHeaders();
-        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
-        ResponseEntity<String> response = restTemplate.exchange(
-                "http://localhost:8004/monopatines/reportesSinTiempoPausa",
-                HttpMethod.GET,
-                requestEntity,
-                String.class);
-
-        if(response != null) {
-            return response;
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR. No se encontraron monopatines sin tiempo de pausa");
-    }
-
-    public ResponseEntity getMonopatinesConMasCantViajeEnAnio(int anio, Long cant_viajes){
-        HttpHeaders headers = new HttpHeaders();
         HttpEntity<Void> requesEntity = new HttpEntity<>(headers);
         ResponseEntity<List<MonopatinCantViajesDTO>> response = restTemplate.exchange(
                 "http://localhost:8004/monopatines/anio/" + anio + "/cantViajesMayorA/" + cant_viajes,
@@ -211,8 +80,10 @@ public class AdministradorService {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR. No se encontraron monopatines con las caracteristicas ingresadas,");
     }
 
-    public ResponseEntity getMonopatinesConKmsMayorAyMenorA(double minKms, double maxKms){
+    public ResponseEntity getMonopatinesConKmsMayorAyMenorA(String token, double minKms, double maxKms){
         HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", token);
+
         HttpEntity<Void> requesEntity = new HttpEntity<>(headers);
         ResponseEntity<List<Monopatin>> response = restTemplate.exchange(
                 "http://localhost:8004/monopatines/conKmsEntre/min/" + minKms + "/max/"+ maxKms,
@@ -228,8 +99,10 @@ public class AdministradorService {
     }
 
 
-    public ResponseEntity deleteMantenimiento(Long id) {
+    public ResponseEntity deleteMantenimiento(String token, Long id) {
         HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", token);
+
         HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
         ResponseEntity<String> response = restTemplate.exchange(
                 "http://localhost:8003/mantenimiento/" + id,
@@ -242,8 +115,9 @@ public class AdministradorService {
 
 
     //ABM paradas
-    public ResponseEntity saveParada(Parada p) {
+    public ResponseEntity saveParada(String token, Parada p) {
         HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", token);
 
         Parada nueva = new Parada(p);
         HttpEntity<Parada> requestEntity = new HttpEntity<>(nueva, headers);
@@ -256,8 +130,9 @@ public class AdministradorService {
         return response;
     }
 
-    public ResponseEntity deleteParada(Long id) {
+    public ResponseEntity deleteParada(String token, Long id) {
         HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", token);
 
         HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
         ResponseEntity<String> response = restTemplate.exchange(
@@ -271,8 +146,9 @@ public class AdministradorService {
 
     //Anular cuenta momementaneamente
 
-    public ResponseEntity anularCuentaMomentaneamente(Long id) {
+    public ResponseEntity anularCuentaMomentaneamente(String token, Long id) {
         HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", token);
 
         HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
         ResponseEntity<String> response = restTemplate.exchange(

@@ -39,8 +39,8 @@ public class HttpConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers( "/monopatines/admin" ).hasAuthority( AuthorityConstant.ADMIN)
-                        .requestMatchers( "/monopatines/usuario" ).hasAuthority( AuthorityConstant.USER)
+                        auth.requestMatchers( "/monopatines/admin/**").hasAuthority( AuthorityConstant.ADMIN)
+                        .requestMatchers( "/monopatines/usuario/**").hasAuthority( AuthorityConstant.USER)
                         .anyRequest().authenticated());
 
         http

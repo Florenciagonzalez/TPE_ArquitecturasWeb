@@ -76,27 +76,6 @@ public class MonopatinController {
             return ResponseEntity.status(HttpStatus.OK).body(service.getConMasCantViajeEnAnio(anio,cant_viajes));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR. No se encontraron monopatines con mas viajes que lo solicitado");
-
-        }
-    }
-
-    @GetMapping("/admin/reportesConTiempoPausa")
-    @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.ADMIN + "\" )")
-    public ResponseEntity<?> getReportesConTiempoPausa(){
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(service.getReportesConTiempoPausa());
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR. No se encontraron monopatines con tiempo de pausa");
-        }
-    }
-
-    @GetMapping("/admin/reportesSinTiempoPausa")
-    @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.ADMIN + "\" )")
-    public ResponseEntity<?> getReportesSinTiempoPausa(){
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(service.getReportesSinTiempoPausa());
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR. No se encontraron monopatines sin tiempo de pausa");
         }
     }
 
@@ -109,6 +88,29 @@ public class MonopatinController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR. No se encontraron monopatines entre los kms que los ingresados");
         }
     }
+
+    //metodos accesibles para mantenimiento
+
+    @GetMapping("/admin/reportesConTiempoPausa")
+    @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.MAINTENANCE + "\" )")
+    public ResponseEntity<?> getReportesConTiempoPausa(){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(service.getReportesConTiempoPausa());
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR. No se encontraron monopatines con tiempo de pausa");
+        }
+    }
+
+    @GetMapping("/admin/reportesSinTiempoPausa")
+    @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.MAINTENANCE + "\" )")
+    public ResponseEntity<?> getReportesSinTiempoPausa(){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(service.getReportesSinTiempoPausa());
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ERROR. No se encontraron monopatines sin tiempo de pausa");
+        }
+    }
+
 
     //metodos accesibles para usuarios
 

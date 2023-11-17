@@ -58,23 +58,4 @@ public class UsuarioService {
             throw e;
         }
     }
-
-    public ResponseEntity getMonopatinesDisponiblesEnZona(double latitud, double longitud) {
-        HttpHeaders headers = new HttpHeaders();
-
-        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
-        ResponseEntity<List<Monopatin>> response = restTemplate.exchange(
-                "http://localhost:8004/monopatines/disponiblesEnZona/latitud/" + latitud +
-                        "/longitud/" + longitud,
-                HttpMethod.GET,
-                requestEntity,
-                new ParameterizedTypeReference<List<Monopatin>>() {});
-
-        if (response.getStatusCode().is2xxSuccessful()){
-            return response;
-        }else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontraron monopatines disponibles en su zona");
-
-        }
-    }
 }

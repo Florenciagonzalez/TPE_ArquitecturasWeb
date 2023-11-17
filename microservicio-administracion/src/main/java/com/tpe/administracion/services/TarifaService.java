@@ -1,7 +1,7 @@
 package com.tpe.administracion.services;
 
 import com.tpe.administracion.models.dto.TarifaDTO;
-import com.tpe.administracion.models.dto.Viaje;
+import com.tpe.administracion.models.clases.Viaje;
 import com.tpe.administracion.models.entidades.Tarifa;
 import com.tpe.administracion.repository.TarifaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,8 +47,10 @@ public class TarifaService {
     }
 
     //Facturacion del año, entre meses
-    public ResponseEntity getFacturacionTotalEnAnioEntreMeses(int anio, int mes1, int mes2) {
+    public ResponseEntity getFacturacionTotalEnAnioEntreMeses(String token, int anio, int mes1, int mes2) {
         HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", token);
+
         HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
 
         ResponseEntity<List<Viaje>> response = restTemplate.exchange(

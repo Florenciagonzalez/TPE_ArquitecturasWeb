@@ -84,12 +84,6 @@ public class UsuarioController {
         }
     }
 
-    @GetMapping("/monopatinesDisponiblesEnZona/latitud/{latitud}/longitud/{longitud}")
-    @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.USER + "\" )")
-    public ResponseEntity<?> getMonopatinesDisponiblesEnZona(@PathVariable double latitud, @PathVariable double longitud) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.getMonopatinesDisponiblesEnZona(latitud, longitud));
-    }
-
     static class JwtToken {
         private String idToken;
 

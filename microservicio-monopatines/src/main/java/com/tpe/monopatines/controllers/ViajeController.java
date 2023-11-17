@@ -16,6 +16,7 @@ public class ViajeController {
     private ViajeService service;
 
     @PostMapping("")
+    @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.USER + "\" )")
     public ResponseEntity<?> save(@RequestBody ViajeDTO v){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(service.save(v));
