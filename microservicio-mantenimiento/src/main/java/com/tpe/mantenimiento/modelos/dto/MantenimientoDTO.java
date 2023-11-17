@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class MantenimientoDTO implements Serializable {
-    private Long id;
+    private String id;
     private Long id_monopatin;
     private LocalDateTime fecha_inicio;
     private LocalDateTime fecha_fin;

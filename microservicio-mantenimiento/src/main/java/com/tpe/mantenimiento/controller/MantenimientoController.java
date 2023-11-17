@@ -38,7 +38,7 @@ public class MantenimientoController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.MAINTENANCE + "\" )")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody MantenimientoDTO m) {
+    public ResponseEntity<?> update(@PathVariable String id, @RequestBody MantenimientoDTO m) {
         try{
             return ResponseEntity.status(HttpStatus.OK).body(mantenimientoService.update(id, m));
         }catch (Exception e){
@@ -48,7 +48,7 @@ public class MantenimientoController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.MAINTENANCE + "\" )")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable String id) {
         try{
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(mantenimientoService.delete(id));
         }catch (Exception e) {
@@ -58,7 +58,7 @@ public class MantenimientoController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.MAINTENANCE + "\" )")
-    public ResponseEntity<?> getById(@PathVariable Long id) {
+    public ResponseEntity<?> getById(@PathVariable String id) {
         try{
             return ResponseEntity.status(HttpStatus.OK).body(mantenimientoService.getById(id));
         }catch (Exception e) {

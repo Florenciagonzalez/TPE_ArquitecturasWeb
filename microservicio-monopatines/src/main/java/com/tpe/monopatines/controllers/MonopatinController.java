@@ -3,13 +3,17 @@ package com.tpe.monopatines.controllers;
 import com.tpe.monopatines.AuthorityConstant;
 import com.tpe.monopatines.modelos.Monopatin;
 import com.tpe.monopatines.services.MonopatinService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-
+@Tag(name = "Monopatin", description = "Monopatin API")
 @RestController
 @RequestMapping("monopatines")
 
@@ -18,7 +22,8 @@ public class MonopatinController {
     private MonopatinService service;
 
     //metodos accesibles para el admin
-
+    
+    @Operation(summary = "Guarda un monopatin.", description = "Guarda un monopatin")
     @PostMapping("/admin")
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.ADMIN + "\" )")
     public ResponseEntity<?> save(@RequestBody Monopatin m) {

@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.repository.Query;
 
 import com.tpe.mantenimiento.modelos.Mantenimiento;
 
-public interface MantenimientoRepository extends MongoRepository<Mantenimiento, Long> {
+public interface MantenimientoRepository extends MongoRepository<Mantenimiento, String> {
 	@Query("{'id_monopatin': ?0, 'esta_reparado': ?1}")
 	 public Mantenimiento findByIdMonopatinAndEstaReparado(Long id_monopatin, boolean esta_reparado);
 }

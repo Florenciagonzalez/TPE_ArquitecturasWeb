@@ -8,6 +8,7 @@ import com.tpe.usuarios.models.Usuario;
 import com.tpe.usuarios.repository.CuentaRepository;
 import com.tpe.usuarios.repository.RolRepository;
 import com.tpe.usuarios.repository.UsuarioRepository;
+import com.tpe.usuarios.security.JwtFilter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -64,7 +65,7 @@ public class UsuarioService {
 
         HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
         ResponseEntity<List<Monopatin>> response = restTemplate.exchange(
-                "http://localhost:8004/monopatines/disponiblesEnZona/latitud/" + latitud +
+                "http://localhost:8004/monopatines/usuario/disponiblesEnZona/latitud/" + latitud +
                         "/longitud/" + longitud,
                 HttpMethod.GET,
                 requestEntity,

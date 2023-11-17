@@ -25,7 +25,7 @@ public class MantenimientoService {
     }
 
     @Transactional
-    public MantenimientoDTO update(Long id, MantenimientoDTO m) throws Exception{
+    public MantenimientoDTO update(String id, MantenimientoDTO m) throws Exception{
         try {
             if (this.mantenimientoRepository.existsById(id)) {
                 Mantenimiento antiguo = this.mantenimientoRepository.findById(id).get();
@@ -45,7 +45,7 @@ public class MantenimientoService {
     }
 
     @Transactional
-    public boolean delete(Long id) throws Exception {
+    public boolean delete(String id) throws Exception {
         try {
             if(this.mantenimientoRepository.existsById(id)) {
                 this.mantenimientoRepository.deleteById(id);
@@ -60,7 +60,7 @@ public class MantenimientoService {
     }
 
     @Transactional
-    public MantenimientoDTO getById(Long id) throws Exception{
+    public MantenimientoDTO getById(String id) throws Exception{
         try{
             return new MantenimientoDTO(this.mantenimientoRepository.findById(id).orElseThrow());
         }catch (Exception e) {
