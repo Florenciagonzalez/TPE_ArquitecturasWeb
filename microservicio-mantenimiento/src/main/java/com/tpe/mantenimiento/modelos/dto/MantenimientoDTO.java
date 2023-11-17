@@ -2,9 +2,12 @@ package com.tpe.mantenimiento.modelos.dto;
 
 import com.tpe.mantenimiento.modelos.Mantenimiento;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+@Data
 public class MantenimientoDTO implements Serializable {
     private Long id;
     private Long id_monopatin;
@@ -21,25 +24,5 @@ public class MantenimientoDTO implements Serializable {
         this.fecha_inicio = m.getFecha_inicio();
         this.fecha_fin = m.getFecha_fin();
         this.esta_reparado = m.isEsta_reparado();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Long getId_monopatin() {
-        return id_monopatin;
-    }
-
-    public LocalDateTime getFecha_inicio() {
-        return fecha_inicio;
-    }
-
-    public LocalDateTime getFecha_fin() {
-        return fecha_fin;
-    }
-
-    public boolean isEsta_reparado() {
-        return esta_reparado;
     }
 }
