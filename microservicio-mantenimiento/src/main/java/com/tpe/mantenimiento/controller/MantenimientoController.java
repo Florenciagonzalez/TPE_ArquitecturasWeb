@@ -90,25 +90,6 @@ public class MantenimientoController {
         }
     }
 
-<<<<<<< HEAD
-    @Operation(summary = "Obtener mantenimiento activo segun ID del monopatin",
-            description = "Obtiene un mantenimiento activo segun el ID del monopatin.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "401", description = "UNAUTHORIZED"),
-            @ApiResponse(responseCode = "403", description = "FORBIDDEN"),
-            @ApiResponse(responseCode = "404", description = "NOT FOUND")
-    })
-    @GetMapping("/activoPorIdMonopatin/{id_monopatin}")
-    @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.MAINTENANCE + "\" )")
-    public ResponseEntity<?> getById_monopatin(@PathVariable Long id_monopatin) {
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(mantenimientoService.getMantActivoByMonopatinId(id_monopatin));
-        }catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error. Por favor intente más tarde.");
-        }
-    }
-
     @Operation(summary = "Crea un nuevo mantenimiento dado el ID del monopatin",
             description = "Crea un mantenimiento segun dado el ID de un monopatin y actualiza el estado del mismo a 'en mantenimiento'.")
     @ApiResponses(value = {
@@ -117,8 +98,6 @@ public class MantenimientoController {
             @ApiResponse(responseCode = "403", description = "FORBIDDEN"),
             @ApiResponse(responseCode = "404", description = "NOT FOUND")
     })
-=======
->>>>>>> 62f4b02bdd25c3b45e1f22846078c844aecabc5b
     @PutMapping("/monopatines/enviarAMantenimiento/{id}")
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.MAINTENANCE + "\" )")
     public ResponseEntity<?> enviarMonopatinMantenimiento(@RequestHeader("Authorization") String token, @PathVariable Long id)  {
