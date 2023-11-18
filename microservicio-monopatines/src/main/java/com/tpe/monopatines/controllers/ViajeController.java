@@ -29,7 +29,7 @@ public class ViajeController {
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.USER + "\" )")
     public ResponseEntity<?> save(@RequestBody ViajeDTO v){
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(service.save(v));
+            return ResponseEntity.status(HttpStatus.CREATED).body(service.save(v));
         }catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR. Revise los campos y vuelva a intentar.");
         }
