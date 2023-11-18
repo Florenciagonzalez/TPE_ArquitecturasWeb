@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import com.tpe.usuarios.models.Cuenta;
+import com.tpe.usuarios.models.Monopatin;
 import com.tpe.usuarios.models.Rol;
 import com.tpe.usuarios.models.Usuario;
 import com.tpe.usuarios.repository.UsuarioRepository;
@@ -22,12 +24,10 @@ import com.tpe.usuarios.repository.UsuarioRepository;
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 public class UsuarioTest {
 	
-	final static long ID = 2;
+	final static long ID = 10;
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	
-	public UsuarioTest(){}
 	
 	@Test 
 	public void testGuardarUsuario() {
@@ -45,7 +45,7 @@ public class UsuarioTest {
 	
 	@Test
 	public void testBuscarUsuarioPorEmail() {
-		String nombre = "jorge1999@gmail.com";
+		String nombre = "user@gmail.com";
 		Usuario usuario = usuarioRepository.findByEmail(nombre).get();
 		assertThat(usuario.getEmail()).isEqualTo(nombre);
 	}
@@ -58,9 +58,4 @@ public class UsuarioTest {
 		assertEquals(usuario.getEmail(), email);
 	}
 	
-//	@Test
-//	public void testEncontrarAlMenosUnMonopatinCercaUsuario() {
-//		List<Monopatin> monopatines = ((List<Monopatin>) usuarioService.getMonopatinesDisponiblesEnZona(233, 230).getBody());
-//		assertTrue(monopatines.size() > 0);
-//	}
 }
