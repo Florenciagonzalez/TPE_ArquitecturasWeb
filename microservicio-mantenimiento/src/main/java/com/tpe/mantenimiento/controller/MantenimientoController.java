@@ -90,6 +90,7 @@ public class MantenimientoController {
         }
     }
 
+<<<<<<< HEAD
     @Operation(summary = "Obtener mantenimiento activo segun ID del monopatin",
             description = "Obtiene un mantenimiento activo segun el ID del monopatin.")
     @ApiResponses(value = {
@@ -116,6 +117,8 @@ public class MantenimientoController {
             @ApiResponse(responseCode = "403", description = "FORBIDDEN"),
             @ApiResponse(responseCode = "404", description = "NOT FOUND")
     })
+=======
+>>>>>>> 62f4b02bdd25c3b45e1f22846078c844aecabc5b
     @PutMapping("/monopatines/enviarAMantenimiento/{id}")
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.MAINTENANCE + "\" )")
     public ResponseEntity<?> enviarMonopatinMantenimiento(@RequestHeader("Authorization") String token, @PathVariable Long id)  {

@@ -98,22 +98,6 @@ public class AdministradorService {
 
     }
 
-
-    public ResponseEntity deleteMantenimiento(String token, Long id) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", token);
-
-        HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
-        ResponseEntity<String> response = restTemplate.exchange(
-                "http://localhost:8003/mantenimiento/" + id,
-                HttpMethod.DELETE,
-                requestEntity,
-                String.class);
-
-        return response;
-    }
-
-
     //ABM paradas
     public ResponseEntity saveParada(String token, Parada p) {
         HttpHeaders headers = new HttpHeaders();

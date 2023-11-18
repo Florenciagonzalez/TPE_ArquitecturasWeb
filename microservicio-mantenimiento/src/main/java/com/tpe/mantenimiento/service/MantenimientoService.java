@@ -78,16 +78,6 @@ public class MantenimientoService {
         }
     }
 
-   @Transactional
-    public MantenimientoDTO getMantActivoByMonopatinId(Long id_monopatin) throws Exception{
-        try{
-            Mantenimiento m = this.mantenimientoRepository.findByIdMonopatinAndEstaReparado(id_monopatin, false);
-            return new MantenimientoDTO(m);
-        }catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
-    }
-
     public ResponseEntity enviarMonopatinMantenimiento(String token, Long id) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", token);
