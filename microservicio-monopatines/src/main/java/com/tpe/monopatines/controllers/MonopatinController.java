@@ -36,7 +36,7 @@ public class MonopatinController {
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.ADMIN + "\" )")
     public ResponseEntity<?> save(@RequestBody Monopatin m) {
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(service.save(m));
+            return ResponseEntity.status(HttpStatus.CREATED).body(service.save(m));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error. No se pudo ingresar, revise los campos e intente nuevamente.");
         }
@@ -53,7 +53,7 @@ public class MonopatinController {
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.ADMIN + "\" ) or hasAnyAuthority(\"" + AuthorityConstant.MAINTENANCE + "\" )")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Monopatin m) {
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(service.update(id, m));
+            return ResponseEntity.status(HttpStatus.CREATED).body(service.update(id, m));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error. No se pudo actualizar, revise los campos e intente nuevamente.");
         }
@@ -85,7 +85,6 @@ public class MonopatinController {
     })
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.ADMIN + "\" ) or hasAnyAuthority(\"" + AuthorityConstant.MAINTENANCE + "\" )")
-
     public ResponseEntity<?> getById(@PathVariable Long id) {
         try{
             return ResponseEntity.status(HttpStatus.OK).body(service.getById(id));
@@ -197,7 +196,7 @@ public class MonopatinController {
             @ApiResponse(responseCode = "403", description = "FORBIDDEN"),
             @ApiResponse(responseCode = "404", description = "NOT FOUND")
     })
-    @GetMapping("/usuario/disponiblesEnZona/latitud/{latitud}/longitud/{longitud}")
+    @GetMapping("/disponiblesEnZona/latitud/{latitud}/longitud/{longitud}")
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.USER + "\" )")
     public ResponseEntity<?> getMonopatinesDisponiblesEnZona(@PathVariable double latitud, @PathVariable double longitud) {
         try {
