@@ -40,6 +40,7 @@ public class HttpConfig {
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers( "/administradores/**" ).hasAuthority(AuthorityConstant.ADMIN)
                             .requestMatchers( "/tarifas/**" ).hasAuthority( AuthorityConstant.ADMIN)
+                            .requestMatchers("/v1/authenticate", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                             .anyRequest().authenticated());
 
         http.anonymous( AbstractHttpConfigurer::disable )

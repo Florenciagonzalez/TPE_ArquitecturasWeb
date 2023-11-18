@@ -7,6 +7,9 @@ import com.tpe.usuarios.models.dto.UsuarioDTO;
 import com.tpe.usuarios.security.JwtFilter;
 import com.tpe.usuarios.security.TokenProvider;
 import com.tpe.usuarios.services.UsuarioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.Builder;
 import lombok.Data;
@@ -33,6 +36,14 @@ public class UsuarioController {
     @Autowired
     private UsuarioService service;
 
+    @Operation(summary = "Autenticar usuario",
+            description = "Autentica a un usuario segun su email y contraseña y devuelve un token.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "CREATED"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+            @ApiResponse(responseCode = "401", description = "UNAUTHORIZED"),
+            @ApiResponse(responseCode = "403", description = "FORBIDDEN")
+    })
     @PostMapping("/autenticar")
     public ResponseEntity<JwtToken> autenticarse(@Valid @RequestBody AuthDTO a){
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken( a.getEmail(), a.getPassword());
@@ -46,20 +57,28 @@ public class UsuarioController {
         return new ResponseEntity<>(new JwtToken(jwt), httpHeaders, HttpStatus.OK);
     }
 
+    @Operation(summary = "Registrar usuario", description = "Crea un nuevo usuario.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "CREATED"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+            @ApiResponse(responseCode = "401", description = "UNAUTHORIZED"),
+            @ApiResponse(responseCode = "403", description = "FORBIDDEN")
+    })
     @PostMapping("/registrarse")
     public ResponseEntity<UsuarioDTO> register(@Valid @RequestBody UsuarioDTO u) throws Exception {
           UsuarioDTO us = this.service.save(u);
           return new ResponseEntity<>(us, HttpStatus.CREATED);
     }
 
-    @Data
-    @Builder
-    public static class ValidateTokenDTO {
-        private boolean isAuthenticated;
-        private String username;
-        private String authorities;
-    }
 
+    @Operation(summary = "Validar token",
+            description = "Devuelve informacion sobre la autenticacion del usuario.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "401", description = "UNAUTHORIZED"),
+            @ApiResponse(responseCode = "403", description = "FORBIDDEN"),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND")
+    })
     @GetMapping("/validate")
     public ResponseEntity<ValidateTokenDTO> validateGet() {
         final var user = SecurityContextHolder.getContext().getAuthentication();
@@ -74,6 +93,13 @@ public class UsuarioController {
         );
     }
 
+    @Operation(summary = "Obtener usuario", description = "Obtiene un usuario segun su ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "401", description = "UNAUTHORIZED"),
+            @ApiResponse(responseCode = "403", description = "FORBIDDEN"),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND")
+    })
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority(\"" + AuthorityConstant.ADMIN + "\" )")
     public ResponseEntity<?> getById(@PathVariable Long id) {
@@ -82,6 +108,14 @@ public class UsuarioController {
         }catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error. Por favor intente más tarde.");
         }
+    }
+
+    @Data
+    @Builder
+    public static class ValidateTokenDTO {
+        private boolean isAuthenticated;
+        private String username;
+        private String authorities;
     }
 
     static class JwtToken {

@@ -37,8 +37,7 @@ public class HttpConfig {
                 .addFilterBefore( new JwtFilter( jwtParser ), UsernamePasswordAuthenticationFilter.class);
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth ->
-                        auth       
+                .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/v1/authenticate", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated());
 
