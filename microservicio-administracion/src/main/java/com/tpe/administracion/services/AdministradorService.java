@@ -142,7 +142,7 @@ public class AdministradorService {
                     String.class);
 
         if(response != null){
-            return ResponseEntity.status(HttpStatus.OK).body("La cuenta fue anulada");
+            return ResponseEntity.status(HttpStatus.CREATED).body("La cuenta fue anulada");
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("La cuenta que desea anular no fue encontrada");
     }
