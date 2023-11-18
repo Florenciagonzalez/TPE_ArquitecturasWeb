@@ -1,6 +1,5 @@
 package com.tpe.monopatines.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
@@ -24,7 +23,6 @@ import com.tpe.monopatines.repository.MonopatinRepository;
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 public class MonopatinTest {
 	static Monopatin m;
-	static Monopatin guardado;
 	
 	@Autowired
 	private MonopatinRepository monopatinRepository;
