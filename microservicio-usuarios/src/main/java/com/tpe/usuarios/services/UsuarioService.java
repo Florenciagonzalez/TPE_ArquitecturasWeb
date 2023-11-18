@@ -1,16 +1,15 @@
 package com.tpe.usuarios.services;
 
 import com.tpe.usuarios.models.Cuenta;
+import com.tpe.usuarios.models.Monopatin;
 import com.tpe.usuarios.models.Rol;
 import com.tpe.usuarios.models.dto.UsuarioDTO;
-import com.tpe.usuarios.models.Monopatin;
 import com.tpe.usuarios.models.Usuario;
 import com.tpe.usuarios.repository.CuentaRepository;
 import com.tpe.usuarios.repository.RolRepository;
 import com.tpe.usuarios.repository.UsuarioRepository;
-import com.tpe.usuarios.security.JwtFilter;
-
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+
 
 @Service
 public class UsuarioService {

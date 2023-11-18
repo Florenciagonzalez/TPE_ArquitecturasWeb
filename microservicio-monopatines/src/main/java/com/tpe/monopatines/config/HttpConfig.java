@@ -1,6 +1,5 @@
 package com.tpe.monopatines.config;
 
-import com.tpe.monopatines.AuthorityConstant;
 import com.tpe.monopatines.security.JwtFilter;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
@@ -38,9 +37,7 @@ public class HttpConfig {
                 .addFilterBefore( new JwtFilter( jwtParser ), UsernamePasswordAuthenticationFilter.class);
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth ->
-                        auth.requestMatchers( "/monopatines/admin" ).hasAuthority( AuthorityConstant.ADMIN)
-                        .requestMatchers( "/monopatines/usuario" ).hasAuthority( AuthorityConstant.USER)
+                .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/v1/authenticate", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated());
 

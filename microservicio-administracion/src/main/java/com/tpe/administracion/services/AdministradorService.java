@@ -52,7 +52,7 @@ public class AdministradorService {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(headers);
         ResponseEntity<String> response = restTemplate.exchange(
-                "http://localhost:8004/monopatines/admin/cantEnMantVsOp",
+                "http://localhost:8004/monopatines/cantEnMantVsOp",
                     HttpMethod.GET,
                     requestEntity,
                     String.class);

@@ -24,11 +24,7 @@ public class RouteConfig {
                 .filters(f -> f.filter(authFilter.apply(new AuthenticationFilter.Config())))
                 .uri("http://localhost:8001"))
 
-                .route("monopatines", r -> r.path("/monopatines/usuario/**")
-                .filters(f -> f.filter(authFilter.apply(new AuthenticationFilter.Config())))
-                .uri("http://localhost:8004"))
-
-                .route("monopatines-admin", r -> r.path("/monopatines/admin/**")
+                .route("monopatines", r -> r.path("/monopatines/**")
                 .filters(f -> f.filter(authFilter.apply(new AuthenticationFilter.Config())))
                 .uri("http://localhost:8004"))
 
