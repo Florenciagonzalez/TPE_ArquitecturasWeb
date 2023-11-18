@@ -32,22 +32,19 @@ public class UsuarioTest {
 	@Test 
 	public void testGuardarUsuario() {
 		Rol rol = new Rol();
-		rol.setNombre("USER");
-		
+		rol.setNombre("USER");	
 		Cuenta cuenta = new Cuenta(LocalDate.now(), (float) 3440, "disponible");	
 		Usuario usuario = new Usuario("prueba@gmail.com", 276391L, "test", "unitario", cuenta, rol, "pass");	
-		Usuario usuarioGuardado = usuarioRepository.save(usuario);
-		
+		Usuario usuarioGuardado = usuarioRepository.save(usuario);	
 		assertNotNull(usuarioGuardado);
-        assertEquals("USER", usuarioGuardado.getRol().getNombre());
         assertTrue(usuarioGuardado.getRol().equals(rol));
 	}
 	
 	@Test
 	public void testBuscarUsuarioPorEmail() {
-		String nombre = "user@gmail.com";
-		Usuario usuario = usuarioRepository.findByEmail(nombre).get();
-		assertThat(usuario.getEmail()).isEqualTo(nombre);
+		String email = "user@gmail.com";
+		Usuario usuario = usuarioRepository.findByEmail(email).get();
+		assertThat(usuario.getEmail()).isEqualTo(email);
 	}
 	
 	@Test
